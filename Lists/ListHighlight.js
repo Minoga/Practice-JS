@@ -1,17 +1,22 @@
+/**
+* @constructor
+* @class ListHighlight
+* @extends List
+*/
 var ListHighlight = function(config) {
     List.call(this, config)
 };
 
 inherit(ListHighlight, List);
 
-ListHighlight.prototype.drop = function drop(e) {
-    var currentList = e.target.parentNode;
-    if (currentList != List.list) {
-        currentList.style.backgroundColor = 'red';
-        self = currentList;
-        setTimeout(function () {
-            self.style.backgroundColor = 'white';
-        }, 100);
-        currentList.appendChild(List.target);
-    }
-};
+/**
+* @protected
+*/
+ListHighlight.prototype._addLiCustom = function() {
+    var currentList = arguments[0];
+    currentList.style.backgroundColor = 'red';
+    var self = currentList;
+    setTimeout(function () {
+        self.style.backgroundColor = 'white';
+    }, 100);
+}
