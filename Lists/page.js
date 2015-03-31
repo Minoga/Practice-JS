@@ -8,4 +8,4 @@ var list3 = new ListCloning({
     el: document.getElementById('test3')
 });
 
-list3.on('addLi', list1.addLi.bind(list1));
+list3.on('addLi', list1.addLi.bind(list1), list1);

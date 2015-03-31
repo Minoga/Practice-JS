@@ -9,3 +9,6 @@
 .hover {
     background: #eee;
 }
+.list-group {
+    min-height: 20px;
+}

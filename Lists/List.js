@@ -3,9 +3,9 @@
 * @class List
 * @param {HTMLUListElement} config.el
 */
-var List = function (config) {
+var List = function(config) {
     this.el = config.el;
-    this.el.addEventListener('dragstart', this._dragStart);
+    this.el.addEventListener('dragstart', this._dragStart.bind(this));
     this.el.addEventListener('dragover', this._dragOver);
     this.el.addEventListener('drop', this._drop.bind(this));
 };
@@ -24,21 +24,21 @@ List.dragLi = null;
 List.list = null;
 
 /**
-* @protected
+* @private
 * @param {Event} e
 */
 List.prototype._dragStart = function(e) {
     List.dragLi = e.target;
-    List.list = this;
+    List.list = e.currentTarget;
     e.dataTransfer.setData("text/html", e.target); // Никак не используется, но в фф без этого не работает.
 };
 
 /**
-* @protected
+* @private
 * @param {Event} e
 */
-List.prototype._drop = function drop(e) {
-    var currentList = e.target.parentNode;
+List.prototype._drop = function(e) {
+    var currentList = e.currentTarget;
     if (currentList != List.list) {
         this._addLiCustom(currentList);
         this.addLi(List.dragLi);
@@ -51,7 +51,7 @@ List.prototype._drop = function drop(e) {
 List.prototype._addLiCustom = function() {};
 
 /**
-* @private
+* @public
 * @param {HTMLLIElement} li
 */
 List.prototype.addLi = function(li) {
@@ -76,15 +76,17 @@ List.prototype._subscribers = {};
 * @param {string} event
 * @param {function} callback
 */
-List.prototype.on = function(event, callback) {
-    this._subscribers[event] = callback;
+List.prototype.on = function(event, callback, context) {
+    this._subscribers[event] = callback.bind(context);
 };
 
 /**
 * @public
 * @param {string} event
-* @param {any} arg
 */
-List.prototype.trigger = function(event, arg) {
-    this._subscribers[event](arg);
+List.prototype.trigger = function(event) {
+    if (arguments.length > 1) {
+        var args = Array.prototype.slice.apply(arguments, [1])
+    }
+    this._subscribers[event].apply(this, args);
 };
