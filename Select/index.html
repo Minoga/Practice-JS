@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Select</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
+    <link rel="stylesheet" href="css/select.css">
+</head>
+<body>
+    <div class="select select_type_disabled dropdown" tabindex="1">
+        <div>
+            <span class="select__text dropdown__control"></span>
+        </div>
+        <ul class="options dropdown__content">
+            <li class="option" data-value="1">А</li>
+            <li class="option" data-value="2">Б</li>
+            <li class="option" data-selected="true" data-value="3">Disable Select</li>
+            <li class="option" data-value="4">Г</li>
+            <li class="option" data-value="5">Д</li>
+        </ul>
+    </div>
+    <div class="select dropdown" tabindex="1">
+        <div>
+            <span class="select__text dropdown__control"></span>
+        </div>
+        <ul class="options dropdown__content">
+            <li class="option" data-value="1">Значение 1</li>
+            <li class="option" data-value="2">Значение 2</li>
+            <li class="option" data-value="3">Значение 3</li>
+            <li class="option" data-value="4">Значение 4</li>
+            <li class="option" data-selected="true" data-value="5">Значение 5</li>
+        </ul>
+    </div>
+    <div class="select dropdown" tabindex="1">
+        <div>
+            <span class="select__text dropdown__control"></span>
+        </div>
+        <ul class="options dropdown__content">
+            <li class="option" data-selected="true" data-value="1">Значение 1</li>
+            <li class="option" data-value="2">Значение 2</li>
+            <li class="option" data-value="3">Значение 3</li>
+            <li class="option" data-value="4">Значение 4</li>
+            <li class="option" data-value="5">Значение 5</li>
+        </ul>
+    </div>
+    <script src="js/Lib.js"></script>
+    <script src="js/Dropdown/Dropdown.js"></script>
+    <script src="js/Select/Select.js"></script>
+    <script src="js/page.js"></script>
+</body>
+</html>
