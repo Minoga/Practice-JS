@@ -1,9 +1,8 @@
-var Dropdown = function(el) {
-    this.el = el;
-    this.control = this.el.querySelector('.dropdown__control');
-    this.el.addEventListener('focus', this.show.bind(this));
+var Dropdown = function(config) {
+    this.el = config.el;
     this.el.addEventListener('blur', this.hide.bind(this));
-    this.control.addEventListener('click', this.activate.bind(this));
+    this.el.addEventListener('click', this.toggle.bind(this));
+    this.el.addEventListener('keydown', this.keyPressEvent.bind(this));
 }
 
 Dropdown.prototype.show = function() {
@@ -11,21 +10,31 @@ Dropdown.prototype.show = function() {
         this.el.classList.add('dropdown_active_yes');
         this.customActionShow();
     }
+    this.active = true;
 }
 
-Dropdown.prototype.hide = function(e) {
+Dropdown.prototype.hide = function() {
     this.el.classList.remove('dropdown_active_yes');
-    this.control.classList.remove('active');
     this.customActionHide();
+    this.active = false;
 }
 
-Dropdown.prototype.activate = function(e) {
-    if (this.control.classList.contains('active')) {
+Dropdown.prototype.toggle = function() {
+    if (this.el.classList.contains('dropdown_active_yes')) {
         this.hide();
     }
     else {
         this.show();
-        this.control.classList.add('active');
+    }
+}
+
+Dropdown.prototype.keyPressEvent = function(e) {
+    console.log(e.keyCode);
+    if (e.keyCode == 38 || e.keyCode == 40) {
+        this.show();
+    }
+    else if (e.keyCode == '27') {
+        this.hide();
     }
 }
 

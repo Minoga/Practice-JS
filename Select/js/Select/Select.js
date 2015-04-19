@@ -1,18 +1,18 @@
 var Select = function(config) {
-    Dropdown.call(this, config.el);
+    Dropdown.call(this, config);
     this._subscribers = {};
-    this.el = config.el;
     this.input = this.el.getElementsByClassName('dropdown__control')[0];
     this.options = [];
-    this.available = this.el.classList.contains('select_type_disabled') ? false : true;
+    this.available = !this.el.classList.contains('select_type_disabled');
     Array.prototype.forEach.call(this.el.querySelectorAll('.option'), function(item) {
         this.options.push(item);
     }, this);
-    this.el.addEventListener('keypress', this.keyPress.bind(this));
+    this.el.addEventListener('keypress', this.autoComplete.bind(this));
     this.el.addEventListener('click', this.click.bind(this));
     this.options.some(function(item) {
         if (item.getAttribute('data-selected')) {
             this.change(item);
+            this.activeOption = this.fakeActiveOption = item;
             return true;
         }
     }, this);
@@ -22,7 +22,7 @@ var Select = function(config) {
 
 inherit(Select, Dropdown);
 
-Select.prototype.keyPress = function(e) {
+Select.prototype.autoComplete = function(e) {
     if (getChar(e)) {
         var char = getChar(e).toLowerCase();
         if (char) {
@@ -39,6 +39,43 @@ Select.prototype.keyPress = function(e) {
     }
 }
 
+Dropdown.prototype.keyPressEvent = function(e) {
+    if (e.keyCode == 38 || e.keyCode == 40) {
+        if (!this.active) {
+            this.show();
+        }
+        if (e.keyCode == 40) {
+            this.fakeActiveOption.classList.remove('option_active_yes');
+            if (this.fakeActiveOption.nextElementSibling) {
+                this.fakeActiveOption.nextElementSibling.classList.add('option_active_yes');
+                this.fakeActiveOption = this.fakeActiveOption.nextElementSibling;
+                this.input.innerHTML = this.fakeActiveOption.innerHTML;
+            }
+            else {
+                this.options[0].classList.add('option_active_yes')
+                this.fakeActiveOption = this.options[0];
+                this.input.innerHTML = this.fakeActiveOption.innerHTML;
+            }
+        }
+        if (e.keyCode == 38) {
+            this.fakeActiveOption.classList.remove('option_active_yes');
+            if (this.fakeActiveOption.previousElementSibling) {
+                this.fakeActiveOption.previousElementSibling.classList.add('option_active_yes');
+                this.fakeActiveOption = this.fakeActiveOption.previousElementSibling;
+                this.input.innerHTML = this.fakeActiveOption.innerHTML;
+            }
+            else {
+                this.options[this.options.length - 1].classList.add('option_active_yes')
+                this.fakeActiveOption = this.options[this.options.length - 1];
+                this.input.innerHTML = this.fakeActiveOption.innerHTML;
+            }
+        }
+    }
+    else if (e.keyCode == '27' || e.keyCode == '13' && this.active) {
+        this.change(this.fakeActiveOption);
+    }
+}
+
 Select.prototype.click = function(e) {
     var currentOption = e.target;
     if (currentOption.classList.contains('option')) {
@@ -48,8 +85,9 @@ Select.prototype.click = function(e) {
 
 Select.prototype.change = function(item) {
     this.input.innerHTML = item.innerHTML;
+    this.activeOption = item;
     this.input.setAttribute('data-value', item.getAttribute('data-value'));
-    this.el.blur();
+    this.hide();
 }
 
 Select.prototype.over = function(e) {
@@ -74,13 +112,8 @@ Select.prototype.out = function(e) {
 }
 
 Select.prototype.customActionShow = function() {
-    var value = this.input.getAttribute('data-value');
-    this.options.some(function(item) {
-        if (item.getAttribute('data-value') == value) {
-            item.classList.add('option_active_yes');
-            return true;
-        }
-    }, this);
+    this.activeOption.classList.add('option_active_yes');
+
 }
 
 Select.prototype.customActionHide = function(e) {
@@ -89,7 +122,8 @@ Select.prototype.customActionHide = function(e) {
             item.classList.remove('option_active_yes');
             return true;
         }
-    })
+    });
+    this.fakeActiveOption = this.activeOption;
 }
 
 
