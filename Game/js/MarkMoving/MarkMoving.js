@@ -12,12 +12,12 @@ inherit(MarkMoving, Mark);
 /**
  * @const (number)
  */
-MarkMoving.prototype.ANIMATION_DELAY = 700;
+MarkMoving.prototype.ANIMATION_DELAY = 200;
 
 /**
  * @const (array)
  */
-MarkMoving.prototype.MOVE_HELPER = [15, 25, 15, -15, -15, 15, 25, 15, 15, -35, 15, -15, -15, -15, 15, -15, 15, 25, 15, -15, -15, 15, -25, 15, 15, -35, 15, -15, -15, -15, 15, -15];
+MarkMoving.prototype.MOVE_HELPER = [10, 10, 10, -10, -10, 10, 10, 10, 10, -10, 10, -10, -10, -10, 10, -10, 10, 10, 10, -10, -10, 10, -10, 10, 10, -10, 10, -10, -10, -10, 10, -10];
 
 /**
  * @private
