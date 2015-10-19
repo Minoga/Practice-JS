@@ -1,0 +1,45 @@
+.game {
+    position: absolute;
+    top: 80px;
+    left: 50%;
+    margin-left: -450px;
+    width: 900px;
+    height: 400px;
+    border: 3px solid #7fffd4;
+}
+.game__scoreboard {
+    position: absolute;
+    top: -75px;
+    right: -75px;
+    width: 70px;
+    height: 70px;
+    border: 2px solid #ff0000;
+    text-align: center;
+    font: bold 45px/70px Arial;
+}
+.game__mark {
+    position: absolute;
+    border-radius: 100px;
+    cursor: pointer;
+}
+.game__mark_square_yes {
+    border-radius: 0;
+}
+.game__mark_state_1 {
+    background: #00ff00;
+}
+.game__mark_state_2 {
+    background: #32c10c;
+}
+.game__mark_state_3 {
+    background: #659109;
+}
+.game__mark_state_4 {
+    background: #996006;
+}
+.game__mark_state_5 {
+    background: #cb3103;
+}
+.game__mark_state_6 {
+    background: #ff0000;
+}
